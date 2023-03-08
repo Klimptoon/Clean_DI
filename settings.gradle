@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "My Applicationsdfsf"
 include ':app'
+include ':data'
+include ':domain'
