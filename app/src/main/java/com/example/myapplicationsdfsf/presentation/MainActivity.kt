@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplicationsdfsf.R
 import com.example.myapplicationsdfsf.data.repository.UserRepositoryImplementation
@@ -15,12 +16,13 @@ import com.example.myapplicationsdfsf.domain.models.SaveUserNameParam
 import com.example.myapplicationsdfsf.domain.models.UserName
 import com.example.myapplicationsdfsf.domain.usecase.GetUserNameUseCase
 import com.example.myapplicationsdfsf.domain.usecase.SaveUserNameUseCase
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
 
-    private lateinit var vm : MainViewModel
+    private val vm by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +30,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Log.e("AAA", "Activity created")
-        vm = ViewModelProvider(this, MainViewModelFactory(this))
-            .get(MainViewModel::class.java)
 
         vm.resultLive.observe(this) {
             binding.dataText.text = it
