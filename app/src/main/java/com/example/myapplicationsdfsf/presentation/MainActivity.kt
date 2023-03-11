@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplicationsdfsf.R
+import com.example.myapplicationsdfsf.app.App
 import com.example.myapplicationsdfsf.data.repository.UserRepositoryImplementation
 import com.example.myapplicationsdfsf.data.storage.sharedrefs.SharedPrefUserStorage
 import com.example.myapplicationsdfsf.databinding.ActivityMainBinding
@@ -15,20 +16,23 @@ import com.example.myapplicationsdfsf.domain.models.SaveUserNameParam
 import com.example.myapplicationsdfsf.domain.models.UserName
 import com.example.myapplicationsdfsf.domain.usecase.GetUserNameUseCase
 import com.example.myapplicationsdfsf.domain.usecase.SaveUserNameUseCase
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-
+    @Inject
+    lateinit var vmFactory: MainViewModelFactory
     private lateinit var vm : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        (applicationContext as App).appComponent.inject(this)
 
         Log.e("AAA", "Activity created")
-        vm = ViewModelProvider(this, MainViewModelFactory(this))
+        vm = ViewModelProvider(this, vmFactory)
             .get(MainViewModel::class.java)
 
         vm.resultLive.observe(this) {

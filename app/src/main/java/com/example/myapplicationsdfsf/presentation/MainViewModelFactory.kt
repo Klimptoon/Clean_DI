@@ -8,13 +8,13 @@ import com.example.myapplicationsdfsf.data.storage.sharedrefs.SharedPrefUserStor
 import com.example.myapplicationsdfsf.domain.usecase.GetUserNameUseCase
 import com.example.myapplicationsdfsf.domain.usecase.SaveUserNameUseCase
 
-class MainViewModelFactory(context : Context) : ViewModelProvider.Factory {
+class MainViewModelFactory(
+    val getUserNameUseCase: GetUserNameUseCase,
+    val saveUserNameUseCase: SaveUserNameUseCase
+) : ViewModelProvider.Factory {
 
-    private val userRepository by lazy(LazyThreadSafetyMode.NONE) { UserRepositoryImplementation(userStorage = SharedPrefUserStorage(context = context)) }
-    private val getUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { GetUserNameUseCase(userRepository) }
-    private val saveUserNameUseCase by lazy(LazyThreadSafetyMode.NONE) { SaveUserNameUseCase(userRepository) }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel( saveUserNameUseCase, getUserNameUseCase) as T
+        return MainViewModel(saveUserNameUseCase, getUserNameUseCase) as T
     }
 }
